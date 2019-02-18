@@ -1,8 +1,6 @@
 # The Code for IQIYI-VID Challenge
 
-This is the code for IQIYI-VID(IQIYI video person identification) Challenge.
-
-The code is adapted based on an intial fork from the [insightface](https://github.com/deepinsight/insightface) repository.
+This is the code for IQIYI-VID(IQIYI video person identification) Challenge. The enhanced SSH (ESSH) from [enhanced-ssh-mxnet](https://github.com/deepinx/enhanced-ssh-mxnet) is applied for face detection and alignment. [Insightface](https://github.com/deepinsight/insightface) scheme is used for face recognition.
 
 Pre-trained models can be downloaded on [baiducloud](https://pan.baidu.com/s/1vS_Uv9l5XZLeMwXPs_XzOA) or [googledrive](https://drive.google.com/open?id=1_8-GcZbYNGvm_msyuwqDw4u9mGnHqSQP).
 
@@ -60,3 +58,8 @@ year={2018}
   year={2017},
 }
 ```
+
+## Acknowledgment
+
+The code is adapted based on an intial fork from the [insightface](https://github.com/deepinsight/insightface) repository.
+
