@@ -1,8 +1,8 @@
-## The Code for IQIYI-VID Challenge
+# The Code for IQIYI-VID Challenge
 
 The code is adapted based on an intial fork from the [insightface](https://github.com/deepinsight/insightface) repository.
 
-Pre-trained models can be downloaded on [baiducloud](https://pan.baidu.com/s/1vS_Uv9l5XZLeMwXPs_XzOA) or [googledrive](https://drive.google.com/open?id=1eX_i0iZxZTMyJ4QccYd2F4x60GbZqQQJ).
+Pre-trained models can be downloaded on [baiducloud](https://pan.baidu.com/s/1vS_Uv9l5XZLeMwXPs_XzOA) or [googledrive](https://drive.google.com/open?id=1_8-GcZbYNGvm_msyuwqDw4u9mGnHqSQP).
 
 ## Environment
 
@@ -28,11 +28,11 @@ Pre-trained models can be downloaded on [baiducloud](https://pan.baidu.com/s/1vS
 
 3. Use ``python genfeat.py`` to re-save the extracted model features for training the MLP network.
 
-4. Use ``train_mlp.py`` to train the MLP network for face ID recognition.
+4. Run ``train_mlp.py`` to train the MLP network for face ID recognition.
 
-5. Use ``python predict.py`` to predict face ID using the trained MLP network and save results.
+5. Run ``python predict.py`` to predict face ID using the trained MLP network and save results.
 
-6. Use ``python output.py`` to output the final submissions for IQIYI-VID Challenge.
+6. Run ``python output.py`` to output the final submissions for IQIYI-VID Challenge.
 
 ## License
 
@@ -48,7 +48,6 @@ author={Deng, Jiankang and Guo, Jia and Niannan, Xue and Zafeiriou, Stefanos},
 journal={arXiv:1801.07698},
 year={2018}
 }
-
 
 @inproceedings{Najibi2017SSH,
   title={SSH: Single Stage Headless Face Detector},
