@@ -3,10 +3,9 @@ Generate base anchors on index 0
 """
 from __future__ import print_function
 import sys
-from builtins import range
+#from builtins import range
 import numpy as np
 from ..cython.anchors import anchors_cython
-from ..config import config
 
 
 def anchors_plane(feat_h, feat_w, stride, base_anchor):
@@ -25,34 +24,18 @@ def generate_anchors(base_size=16, ratios=[0.5, 1, 2],
                          for i in range(ratio_anchors.shape[0])])
     return anchors
 
-#def generate_anchors_fpn(base_size=[64,32,16,8,4], ratios=[0.5, 1, 2], scales=8):
-#    """
-#    Generate anchor (reference) windows by enumerating aspect ratios X
-#    scales wrt a reference (0, 0, 15, 15) window.
-#    """
-#    anchors = []
-#    _ratios = ratios.reshape( (len(base_size), -1) )
-#    _scales = scales.reshape( (len(base_size), -1) )
-#    for i,bs in enumerate(base_size):
-#      __ratios = _ratios[i]
-#      __scales = _scales[i]
-#      #print('anchors_fpn', bs, __ratios, __scales, file=sys.stderr)
-#      r = generate_anchors(bs, __ratios, __scales)
-#      #print('anchors_fpn', r.shape, file=sys.stderr)
-#      anchors.append(r)
-#    return anchors
-
-def generate_anchors_fpn():
-    #assert(False)
+def generate_anchors_fpn(base_size=[64,32,16,8,4], ratios=[0.5, 1, 2],
+                     scales=8):
     """
     Generate anchor (reference) windows by enumerating aspect ratios X
     scales wrt a reference (0, 0, 15, 15) window.
     """
     anchors = []
-    for k, v in config.RPN_ANCHOR_CFG.iteritems():
-      bs = v['BASE_SIZE']
-      __ratios = np.array(v['RATIOS'])
-      __scales = np.array(v['SCALES'])
+    _ratios = ratios.reshape( (len(base_size), -1) )
+    _scales = scales.reshape( (len(base_size), -1) )
+    for i,bs in enumerate(base_size):
+      __ratios = _ratios[i]
+      __scales = _scales[i]
       #print('anchors_fpn', bs, __ratios, __scales, file=sys.stderr)
       r = generate_anchors(bs, __ratios, __scales)
       #print('anchors_fpn', r.shape, file=sys.stderr)

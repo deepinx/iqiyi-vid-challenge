@@ -46,6 +46,26 @@ def clip_boxes(boxes, im_shape):
     boxes[:, 3::4] = np.maximum(np.minimum(boxes[:, 3::4], im_shape[0] - 1), 0)
     return boxes
 
+def clip_points(points, im_shape):
+    """
+    Clip boxes to image boundaries.
+    :param boxes: [N, 4* num_classes]
+    :param im_shape: tuple of 2
+    :return: [N, 4* num_classes]
+    """
+
+    points[:, 0::10] = np.maximum(np.minimum(points[:, 0::10], im_shape[1] - 1), 0)
+    points[:, 1::10] = np.maximum(np.minimum(points[:, 1::10], im_shape[0] - 1), 0)
+    points[:, 2::10] = np.maximum(np.minimum(points[:, 2::10], im_shape[1] - 1), 0)
+    points[:, 3::10] = np.maximum(np.minimum(points[:, 3::10], im_shape[0] - 1), 0)
+    points[:, 4::10] = np.maximum(np.minimum(points[:, 4::10], im_shape[1] - 1), 0)
+    points[:, 5::10] = np.maximum(np.minimum(points[:, 5::10], im_shape[0] - 1), 0)
+    points[:, 6::10] = np.maximum(np.minimum(points[:, 6::10], im_shape[1] - 1), 0)
+    points[:, 7::10] = np.maximum(np.minimum(points[:, 7::10], im_shape[0] - 1), 0)
+    points[:, 8::10] = np.maximum(np.minimum(points[:, 8::10], im_shape[1] - 1), 0)
+    points[:, 9::10] = np.maximum(np.minimum(points[:, 9::10], im_shape[0] - 1), 0)
+
+    return points
 
 def nonlinear_transform(ex_rois, gt_rois):
     """
@@ -73,33 +93,6 @@ def nonlinear_transform(ex_rois, gt_rois):
 
     targets = np.vstack(
         (targets_dx, targets_dy, targets_dw, targets_dh)).transpose()
-    return targets
-
-def landmark_transform(ex_rois, gt_rois):
-    """
-    compute bounding box regression targets from ex_rois to gt_rois
-    :param ex_rois: [N, 4]
-    :param gt_rois: [N, 10]
-    :return: [N, 10]
-    """
-    assert ex_rois.shape[0] == gt_rois.shape[0], 'inconsistent rois number'
-
-    ex_widths = ex_rois[:, 2] - ex_rois[:, 0] + 1.0
-    ex_heights = ex_rois[:, 3] - ex_rois[:, 1] + 1.0
-    ex_ctr_x = ex_rois[:, 0] + 0.5 * (ex_widths - 1.0)
-    ex_ctr_y = ex_rois[:, 1] + 0.5 * (ex_heights - 1.0)
-
-    
-    targets = []
-    for i in range(10):
-      if i%2==0:
-        target = (gt_rois[:,i] - ex_ctr_x) / (ex_widths + 1e-14)
-      else:
-        target = (gt_rois[:,i] - ex_ctr_y) / (ex_heights + 1e-14)
-      targets.append(target)
-
-
-    targets = np.vstack(targets).transpose()
     return targets
 
 
@@ -142,23 +135,51 @@ def nonlinear_pred(boxes, box_deltas):
 
     return pred_boxes
 
-def landmark_pred(boxes, landmark_deltas):
+def landmark_pred(boxes, point_deltas):
+    """
+    Transform the set of class-agnostic boxes into class-specific boxes
+    by applying the predicted offsets (box_deltas)
+    :param boxes: !important [N 4]
+    :param box_deltas: [N, 4 * num_classes]
+    :return: [N 4 * num_classes]
+    """
     if boxes.shape[0] == 0:
-        return np.zeros((0, landmark_deltas.shape[1]))
+        return np.zeros((0, point_deltas.shape[1]))
+
     boxes = boxes.astype(np.float, copy=False)
     widths = boxes[:, 2] - boxes[:, 0] + 1.0
     heights = boxes[:, 3] - boxes[:, 1] + 1.0
     ctr_x = boxes[:, 0] + 0.5 * (widths - 1.0)
     ctr_y = boxes[:, 1] + 0.5 * (heights - 1.0)
-    preds = []
-    for i in range(landmark_deltas.shape[1]):
-      if i%2==0:
-        pred = (landmark_deltas[:,i]*widths + ctr_x)
-      else:
-        pred = (landmark_deltas[:,i]*heights + ctr_y)
-      preds.append(pred)
-    preds = np.vstack(preds).transpose()
-    return preds
+
+    d1x = point_deltas[:, 0]
+    d1y = point_deltas[:, 1]
+    d2x = point_deltas[:, 2]
+    d2y = point_deltas[:, 3]
+    d3x = point_deltas[:, 4]
+    d3y = point_deltas[:, 5]
+    d4x = point_deltas[:, 6]
+    d4y = point_deltas[:, 7]
+    d5x = point_deltas[:, 8]
+    d5y = point_deltas[:, 9]
+
+
+    pred_points = np.zeros(point_deltas.shape)
+    # x1
+    x = d1x * widths
+    # print("aa", d1x.shape, widths.shape, ctr_x.shape, x.shape)
+    pred_points[:, 0] = d1x * widths + ctr_x
+    pred_points[:, 1] = d1y * heights + ctr_y
+    pred_points[:, 2] = d2x * widths + ctr_x
+    pred_points[:, 3] = d2y * heights + ctr_y
+    pred_points[:, 4] = d3x * widths + ctr_x
+    pred_points[:, 5] = d3y * heights + ctr_y
+    pred_points[:, 6] = d4x * widths + ctr_x
+    pred_points[:, 7] = d4y * heights + ctr_y
+    pred_points[:, 8] = d5x * widths + ctr_x
+    pred_points[:, 9] = d5y * heights + ctr_y
+
+    return pred_points
 
 def iou_transform(ex_rois, gt_rois):
     """ return bbox targets, IoU loss uses gt_rois as gt """

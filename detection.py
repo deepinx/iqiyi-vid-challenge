@@ -10,7 +10,7 @@ import numpy as np
 import mxnet as mx
 import sklearn
 from sklearn.cluster import DBSCAN
-from ssh_detector import SSHDetector
+from essh_detector import ESSHDetector
 from mtcnn_detector import MtcnnDetector
 import face_preprocess
 
@@ -46,8 +46,6 @@ parser = argparse.ArgumentParser(description='face model test')
 # general
 parser.add_argument('--image-size', default='112,112', help='')
 parser.add_argument('--model', default='./model/model-r100-gg/model,0', help='path to load model.') #0.875
-#parser.add_argument('--model', default='./models2/model-r100-sfza/model,0', help='path to load model.') #0.875
-#parser.add_argument('--model', default='../iqiyi-competition/models2/model-r100-iqiyi/model,6', help='path to load model.') #0.875
 parser.add_argument('--output', default='/media/3T_disk/my_datasets/iqiyi_vid/gt_v2/det_trainval', help='')
 parser.add_argument('--dataset', default='/media/3T_disk/my_datasets/iqiyi_vid', help='')
 parser.add_argument('--gpu', default=0, type=int, help='gpu id')
@@ -79,7 +77,7 @@ if len(args.split)>0:
 print('SPLIT:', SPLIT)
 
 
-detector = SSHDetector('./model/ssh-model/essh', 0, ctx_id=args.gpu, test_mode=False)
+detector = ESSHDetector('./model/ssh-model/essh', 0, ctx_id=args.gpu, test_mode=False)
 
 def get_faces(video, is_train=True):
   R = []
