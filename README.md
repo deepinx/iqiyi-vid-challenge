@@ -1,5 +1,7 @@
 # The Code for IQIYI-VID Challenge
 
+This is the code for IQIYI-VID(IQIYI video person identification) Challenge.
+
 The code is adapted based on an intial fork from the [insightface](https://github.com/deepinsight/insightface) repository.
 
 Pre-trained models can be downloaded on [baiducloud](https://pan.baidu.com/s/1vS_Uv9l5XZLeMwXPs_XzOA) or [googledrive](https://drive.google.com/open?id=1_8-GcZbYNGvm_msyuwqDw4u9mGnHqSQP).
@@ -19,6 +21,8 @@ Pre-trained models can be downloaded on [baiducloud](https://pan.baidu.com/s/1vS
 3.  Type  `make`  to build necessary cxx libs.
 
 4.  Download the pre-trained model and place it in *`./model/`*
+
+5.  Download the IQIYI-VID Datasets from [IQIYI_VID](http://challenge.ai.iqiyi.com/detail?raceId=5afc36639689443e8f815f9e) and unzip them to your disk. 
 
 ## Usage
 
