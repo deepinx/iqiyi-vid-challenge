@@ -1,6 +1,8 @@
 # The Code for IQIYI-VID Challenge
 
-This is the code for IQIYI-VID(IQIYI video person identification) Challenge. The enhanced SSH (ESSH) from [enhanced-ssh-mxnet](https://github.com/deepinx/enhanced-ssh-mxnet) is applied for face detection and alignment. [Insightface](https://github.com/deepinsight/insightface) scheme is used for face recognition.
+Recently [www.iqiyi.com](http://www.iqiyi.com) released a great video person dataset called [IQIYI_VID](http://challenge.ai.iqiyi.com/detail?raceId=5afc36639689443e8f815f9e) and also launched a person search competition on it. It is a very large and real dataset worth trying to verify your face model accuracy precisely.
+
+This repository contains the code for IQIYI-VID(IQIYI video person identification) Challenge. The methods are implemented in Python and MXNet. The Enhanced SSH (ESSH) from [enhanced-ssh-mxnet](https://github.com/deepinx/enhanced-ssh-mxnet) is applied for face detection and alignment. [Insightface](https://github.com/deepinsight/insightface) scheme is used for face recognition.
 
 Pre-trained models can be downloaded on [baiducloud](https://pan.baidu.com/s/1vS_Uv9l5XZLeMwXPs_XzOA) or [googledrive](https://drive.google.com/open?id=1_8-GcZbYNGvm_msyuwqDw4u9mGnHqSQP).
 
