@@ -9,8 +9,8 @@ import sklearn.preprocessing
 
 parser = argparse.ArgumentParser(description='face model test')
 # general
-parser.add_argument('--inputs', default='/media/3T_disk/my_datasets/iqiyi_vid/gt_v2/feata', help='')
-parser.add_argument('--output', default='/media/3T_disk/my_datasets/iqiyi_vid/gt_v2/trainvala', help='')
+parser.add_argument('--inputs', default='/media/3T_disk/my_datasets/iqiyi_vid/feat_trainvala', help='')
+parser.add_argument('--output', default='/media/3T_disk/my_datasets/iqiyi_vid/trainvala', help='')
 args = parser.parse_args()
 
 #PARTS = [1]

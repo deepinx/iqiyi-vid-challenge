@@ -4,27 +4,15 @@ import sys
 import pickle
 import numpy as np
 
-OUTPUT_DIR='/media/3T_disk/my_datasets/iqiyi_vid/gt_v2'   # '/gpu/data2/jiaguo/iqiyi'
-AUG = 0
-PARTS = 1   # 6
-
-DET_MODEL='./model/model-r100-gg/model,0' # model a for det quality control
-DET_PREFIX='det_trainval'
-TEST_DET_PREFIX='det_trainval_test'
-
-MODEL='./model/model-r100-gg/model,0' # model a
-
-FEAT_PREFIX='feata'
-TEST_FEAT_PREFIX='testfeata'
+OUTPUT_DIR = '/media/3T_disk/my_datasets/iqiyi_vid/'   # test feature output
 
 
 #e>c>a>h>d
 DEBUG='IQIYI_VID_TEST_0094168.mp4'
-submit_name = 'yyyy'
+submit_name = '0001'
 FPS = []
-for a in ['a', 'c', 'd', 'e', 'h']:
-  for b in [1,2]:
-    FPS.append('pred%s%d'%(a,b))
+for a in ['a']:
+    FPS.append('pred_test%s'%(a))
 weights = [1.0]*len(FPS)
 size = len(FPS)
 #size = 2
@@ -59,49 +47,6 @@ for i in range(size):
   f.close()
 print(len(name2score), dcount)
 
-inputs = []
-for i in range(PARTS):
-  inputs.append(os.path.join(OUTPUT_DIR,'scenepreda%d%d'%(i,PARTS)))
-
-for _input in inputs:
-  print(_input)
-  f = open(_input, 'rb')
-  while True:
-    try:
-      item = pickle.load(f)
-    except:
-      break
-    #print(item)
-    name = item[0]
-    xscore = item[1]
-    P = 0.25
-    Q = 2.0
-    R = 3.0
-    #midxs = np.where(xscore>=P)[0]
-    midxs = []
-    midx = np.argmax(xscore)
-    mscore = xscore[midx]
-    if mscore>=P:
-      midxs.append(midx)
-    #assert len(midxs)<=1
-    if name not in name2score:
-      if len(midxs)>0:
-        nxscore = np.zeros( (len(xscore),), dtype=np.float32)
-        for midx in midxs:
-          mscore = xscore[midx]
-          nxscore[midx] = mscore/Q
-        name2score[name] = nxscore 
-    else:
-      pass
-      #if len(midxs)>0:
-      #  escore = name2score[name]
-      #  for midx in midxs:
-      #    mscore = xscore[midx]
-      #    escore[midx] += mscore/R
-      #  escore /= np.sum(escore)
-      #  name2score[name] = escore 
-
-  f.close()
 
 print(len(name2score), dcount)
 ret_map = {}
@@ -140,7 +85,7 @@ for name, xscore in name2score.iteritems():
       ret_map[label] = []
     ret_map[label].append( (name, score) )
     idfound = True
-out_filename='./C_%s.txt'%submit_name
+out_filename='./Submit_%s.txt'%submit_name
 print(len(ret_map), zcount, out_filename)
 outf = open(out_filename, 'w')
 #out_filename2='./gsubmit_score.txt'

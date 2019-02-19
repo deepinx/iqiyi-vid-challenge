@@ -67,7 +67,7 @@ class LossValueMetric(mx.metric.EvalMetric):
 def parse_args():
   parser = argparse.ArgumentParser(description='Train face network')
   # general
-  parser.add_argument('--data', default='/media/3T_disk/my_datasets/iqiyi_vid/gt_v2/trainvala', help='')
+  parser.add_argument('--data', default='/media/3T_disk/my_datasets/iqiyi_vid/trainvala', help='')
   parser.add_argument('--prefix', default='./model/iqiyia1', help='directory to save model.')
   parser.add_argument('--pretrained', default='', help='pretrained model to load')
   parser.add_argument('--ckpt', type=int, default=1, help='checkpoint saving option. 0: discard saving. 1: save when necessary. 2: always save')

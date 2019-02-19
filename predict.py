@@ -10,10 +10,10 @@ import sklearn.preprocessing
 
 parser = argparse.ArgumentParser(description='face model test')
 # general
-parser.add_argument('--model', default='', help='')
-parser.add_argument('--gpu', default=6, type=int, help='gpu id')
-parser.add_argument('--inputs', default='', help='')
-parser.add_argument('--output', default='', help='')
+parser.add_argument('--model', default='./model/iqiyia1,40', help='')
+parser.add_argument('--gpu', default=0, type=int, help='gpu id')
+parser.add_argument('--inputs', default='/media/3T_disk/my_datasets/iqiyi_vid/feat_testa', help='')
+parser.add_argument('--output', default='/media/3T_disk/my_datasets/iqiyi_vid/pred_testa', help='')
 args = parser.parse_args()
 
 
@@ -116,33 +116,11 @@ for name, items in DB_NAME.iteritems():
   #feat = sklearn.preprocessing.normalize(feat)
   #label = items[0][2]
   flag = items[0][3]
-  assert flag==3
+  # assert flag==3
   buf.append( (name, feat) )
   if len(buf)==batch_size:
     process(buf)
     buf = []
-
-  #DB_test[name] = feat
-  #print(feat.shape)
-  #index = np.argsort(xscore)[::-1]
-  #index = index[:N]
-  #idfound = False
-  #idx = -1
-  #for im in index:
-  #  idx+=1
-  #  label = im
-  #  if label==0:
-  #    #if S==0 and idx==0:
-  #    #  break
-  #    continue
-  #  score = xscore[im]
-  #  #if idfound:
-  #  if idx>0:
-  #    score /= S
-  #  if label not in ret_map:
-  #    ret_map[label] = []
-  #  ret_map[label].append( (name, score) )
-  #  idfound = True
 
 if len(buf)>0:
   process(buf)
@@ -150,27 +128,4 @@ if len(buf)>0:
 fout.close()
 sys.exit(0)
 
-out_filename='./submita.txt'
-outf = open(out_filename, 'w')
-out_filename2='./submita_score.txt'
-outf2 = open(out_filename2, 'w')
-empty_count=0
-min_len = 99999
-for label, ret_list in ret_map.iteritems():
-  ret_list = sorted(ret_list, key = lambda x : x[1], reverse=True)
-  if TOPK>0 and len(ret_list)>TOPK:
-    ret_list = ret_list[:TOPK]
-  min_len = min(min_len, len(ret_list))
-  out_items = [str(label)]
-  out_items2 = [str(label)]
-  for ir, r in enumerate(ret_list):
-    name = r[0]
-    score = r[1]
-    out_items.append(name)
-    out_items2.append('%.3f'%score)
-  outf.write("%s\n"%(' '.join(out_items)))
-  outf2.write("%s\n"%(' '.join(out_items2)))
-outf.close()
-outf2.close()
-print('min', min_len)
 

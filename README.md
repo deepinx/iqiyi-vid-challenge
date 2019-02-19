@@ -24,17 +24,17 @@ Pre-trained models can be downloaded on [baiducloud](https://pan.baidu.com/s/1vS
 
 ## Usage
 
-1. Use ``python detection.py`` for face detection of train+val datasets and serialize storage. 
+1. Use ``python detect.py`` to train+val dataset and test dataset respectively for face detection. 
 
-2. Use ``python feature.py`` to extract face features from the above serialize detection results.
+2. Use ``python feature.py`` to detections of train+val and test dataset respectively for feature extraction.
 
-3. Use ``python genfeat.py`` to re-save the extracted model features for training the MLP network.
+3. Use ``python genfeat.py`` to re-save the extracted face features for training the MLP network.
 
-4. Run ``train_mlp.py`` to train the MLP network for face ID recognition.
+4. Run ``train_mlp.py`` to train the MLP network for face ID recognition using train+val datasets.
 
-5. Run ``python predict.py`` to predict face ID using the trained MLP network and save results.
+5. Run ``python predict.py`` to features of test dataset for predicting face ID using the trained MLP network.
 
-6. Run ``python output.py`` to output the final submissions for IQIYI-VID Challenge.
+6. Run ``python submit.py`` to output the final submissions for IQIYI-VID Challenge.
 
 ## License
 
