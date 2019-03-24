@@ -1,4 +1,4 @@
-# The Code for IQIYI-VID Challenge
+## Code for IQIYI-VID Challenge based on Insightface
 
 Recently [www.iqiyi.com](http://www.iqiyi.com) released a great video person dataset called [IQIYI_VID](http://challenge.ai.iqiyi.com/detail?raceId=5afc36639689443e8f815f9e) and also launched a person search competition on it. It is a very large and real dataset worth trying to verify your face model accuracy precisely.
 
