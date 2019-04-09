@@ -24,20 +24,33 @@ This repository has been tested under the following environment:
 
 4.  Download the pre-trained model and place it in *`./model/`*
 
-5.  Download the IQIYI-VID Datasets from [IQIYI_VID](http://challenge.ai.iqiyi.com/detail?raceId=5afc36639689443e8f815f9e) and unzip them to your disk. 
+5.  Download the IQIYI-VID Datasets from [IQIYI_VID](http://challenge.ai.iqiyi.com/detail?raceId=5afc36639689443e8f815f9e) and unzip them to `data/iqiyi_vid` directory. 
 
 ## Usage
 
-1. Use ``python detect.py`` to train+val dataset and test dataset respectively for face detection. 
+1.  Detect faces on train+val dataset and test dataset respectively using ESSH model.  Model `model-r50-gg` is used to judge the quality of the detected faces.
+```
+python detect.py --model './model/model-r50-gg/model,0' --output './output/det_trainval' --dataset './data/iqiyi_vid' --gpu 0 --stage 'trainval'
+python detect.py --model './model/model-r50-gg/model,0' --output './output/det_test' --dataset './data/iqiyi_vid' --gpu 0 --stage 'test'
+```
 
-2. Use ``python feature.py`` to detections of train+val and test dataset respectively for feature extraction.
-
-3. Use ``python genfeat.py`` to re-save the extracted face features for training the MLP network.
-
-4. Run ``train_mlp.py`` to train the MLP network for face ID recognition using train+val datasets.
-
-5. Run ``python predict.py`` to features of test dataset for predicting face ID using the trained MLP network.
-
+2. Extract features to the detected faces of train+val and test dataset respectively using `model-r100-gg` model.
+```
+python feature.py --model './model/model-r100-gg/model,0' --input './output/det_trainval' --output './output/feat_trainval'  --gpu 0
+python feature.py --model './model/model-r100-gg/model,0' --input './output/det_test' --output './output/feat_test' --gpu 0
+```
+3.  Re-save the extracted face features for training the MLP network.
+```
+python genfeat.py --inputs './output/feat_trainval' --output './output/trainval' 
+```
+4. Train the MLP network for face ID recognition using train+val datasets.
+```
+python train_mlp.py --data './output/trainval' --prefix './model/iqiyi' --ckpt 1 --network 'r50' --lr 0.2 --per-batch-size 1024
+```
+5.  Predict face ID to features of test dataset using the trained MLP network.
+```
+python predict.py --model './model/iqiyi,40' --gpu 0 --inputs './output/feat_test' --output './output/pred_test'
+```
 6. Run ``python submit.py`` to output the final submissions for IQIYI-VID Challenge.
 
 ## License
