@@ -23,7 +23,7 @@ parser.add_argument('--model', default='./model/model-r50-gg/model,0', help='pat
 parser.add_argument('--output', default='/media/3T_disk/my_datasets/iqiyi_vid/det_test', help='')
 parser.add_argument('--dataset', default='/media/3T_disk/my_datasets/iqiyi_vid', help='')
 parser.add_argument('--gpu', default=0, type=int, help='gpu id')
-parser.add_argument('--det', default=0, type=int, help='mtcnn option, 2 means using R+O, else using O')
+parser.add_argument('--det', default=0, type=int, help='essh option')
 parser.add_argument('--sampling', default=3, type=int, help='')
 parser.add_argument('--split', default='', type=str, help='')
 parser.add_argument('--threshold', default=0.9, type=float, help='clustering dist threshold')
