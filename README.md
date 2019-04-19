@@ -47,7 +47,7 @@ python genfeat.py --inputs './output/feat_trainval' --output './output/trainval'
 ```
 python train_mlp.py --data './output/trainval' --prefix './model/iqiyi' --ckpt 1 --network 'r50' --lr 0.2 --per-batch-size 1024
 ```
-5.  Predict face ID to features of test dataset using the trained MLP network.
+5.  Predict face ID from features of the test dataset using the pre-trained MLP network.
 ```
 python predict.py --model './model/iqiyi,40' --gpu 0 --inputs './output/feat_test' --output './output/pred_test'
 ```
