@@ -30,28 +30,28 @@ This repository has been tested under the following environment:
 
 1.  Detect faces on train+val dataset and test dataset respectively using ESSH model.  Model `model-r50-gg` is used to judge the quality of the detected faces.
 ```
-python detect.py --model './model/model-r50-gg/model,0' --output './output/det_trainval' --dataset './data/iqiyi_vid' --gpu 0 --stage 'trainval'
-python detect.py --model './model/model-r50-gg/model,0' --output './output/det_test' --dataset './data/iqiyi_vid' --gpu 0 --stage 'test'
+python detect.py --model ./model/model-r50-gg/model,0 --output ./output/det_trainval --dataset ./data/iqiyi_vid --gpu 0 --stage trainval
+python detect.py --model ./model/model-r50-gg/model,0 --output ./output/det_test --dataset ./data/iqiyi_vid --gpu 0 --stage test
 ```
 
 2. Extract features to the detected faces of train+val and test dataset respectively using `model-r100-gg` model.
 ```
-python feature.py --model './model/model-r100-gg/model,0' --input './output/det_trainval' --output './output/feat_trainval'  --gpu 0
-python feature.py --model './model/model-r100-gg/model,0' --input './output/det_test' --output './output/feat_test' --gpu 0
+python feature.py --model ./model/model-r100-gg/model,0 --input ./output/det_trainval --output ./output/feat_trainval  --gpu 0
+python feature.py --model ./model/model-r100-gg/model,0 --input ./output/det_test --output ./output/feat_test --gpu 0
 ```
 3.  Re-save the extracted face features for training the MLP network.
 ```
-python genfeat.py --inputs './output/feat_trainval' --output './output/trainval' 
+python genfeat.py --inputs ./output/feat_trainval --output ./output/trainval
 ```
 4. Train the MLP network for face ID recognition using train+val datasets.
 ```
-python train_mlp.py --data './output/trainval' --prefix './model/iqiyi' --ckpt 1 --network 'r50' --lr 0.2 --per-batch-size 1024
+python train_mlp.py --data ./output/trainval --prefix ./model/iqiyi --ckpt 1 --network r50 --lr 0.2 --per-batch-size 1024
 ```
 5.  Predict face ID from features of the test dataset using the pre-trained MLP network.
 ```
-python predict.py --model './model/iqiyi,40' --gpu 0 --inputs './output/feat_test' --output './output/pred_test'
+python predict.py --model ./model/iqiyi,40 --gpu 0 --inputs ./output/feat_test --output ./output/pred_test
 ```
-6. Run ``python submit.py`` to output the final submissions for IQIYI-VID Challenge.
+6. Run ``python submit.py`` to generate the final submissions for IQIYI-VID Challenge.
 
 ## License
 
